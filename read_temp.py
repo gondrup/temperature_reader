@@ -54,12 +54,30 @@ class Digit:
         self.bg_colors = bg_colors
         self.fg_colors = fg_colors
 
-class Minus(Digit):
+    def get_digit(self):
+        return ''
+
+class MinusSeg(Digit):
     def get_digit(self):
         if(self.segment_stripes[0].is_on(self.bg_colors, self.fg_colors)):
             return '-'
         else:
             return ''
+
+class TwoSeg(Digit):
+    def get_digit(self):
+        return '' # TODO: Determine 1 or 0
+
+class PointSeg(Digit):
+    def get_digit(self):
+        if(self.segment_stripes[0].is_on(self.bg_colors, self.fg_colors)):
+            return '.'
+        else:
+            return ''
+
+class SevenSeg(Digit):
+    def get_digit(self):
+        return '' # TODO: Determine number between 0-9 or off
 
 def get_bg_colors(image):
     colors = []
@@ -100,10 +118,12 @@ fg_colors = get_fg_colors(rgb_image)
 #print fg_colors
 
 digits = [
-    Minus([
-        SegmentStripe(rgb_image, (614, 308), (614, 422))
+    MinusSeg([
+        SegmentStripe(rgb_image, (240, 322), (220, 412)) # Check this, guessed numbers
     ], bg_colors, fg_colors)
+    # TODO: Add remaining digits (TwoSeg, SevenSeg, SevenSeg, PointSeg, SevenSeg)
 ]
+
 
 for digit in digits:
     print digit.get_digit()
