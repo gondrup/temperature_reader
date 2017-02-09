@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 
-from PIL import Image
+from PIL import Image, ImageDraw
 from lib import bresenham_line
+import sys
 
 # TODO: Normalize coordinates so image can be any size (reference image size was: 1936 x 1360)
 # TODO: Read file name from argv
 
 # Similarity formula taken from http://stackoverflow.com/a/26768008
 
-SIMILARITY_THRESHOLD = 70
+SIMILARITY_THRESHOLD = 18
 
 def luminance(pixel):
     return (0.299 * pixel[0] + 0.587 * pixel[1] + 0.114 * pixel[2])
@@ -17,7 +18,11 @@ def get_difference(pixel_a, pixel_b):
     return abs(luminance(pixel_a) - luminance(pixel_b))
 
 def is_similar(pixel_a, pixel_b, threshold):
-    return get_similarity(pixel_a, pixel_b) < threshold
+    return get_difference(pixel_a, pixel_b) < threshold
+
+# http://stackoverflow.com/questions/19914509/python-pil-pixel-rgb-color-to-hex
+def rgb2hex(pixel):
+    return '#{:02x}{:02x}{:02x}'.format(pixel[0], pixel[1], pixel[2])
 
 class SegmentStripe:
     def __init__(self, image, start, end):
@@ -33,19 +38,13 @@ class SegmentStripe:
         fg_values = []
 
         for pixel_b in bg_colors:
-            #print 'bg', pixel, pixel_b
-
             bg_values.append(get_difference(pixel, pixel_b))
 
         for pixel_b in fg_colors:
-            #print 'fg', pixel, pixel_b
-
             fg_values.append(get_difference(pixel, pixel_b))
 
         bg_average = sum(bg_values) / len(bg_values)
         fg_average = sum(fg_values) / len(fg_values)
-
-        #print bg_values, fg_values
 
         return (fg_average < bg_average)
 
@@ -61,12 +60,15 @@ class SegmentStripe:
             else:
                 off = off + 1
 
-        #print 'on:', on, 'off:', off
-
         return (on > off)
 
     def is_off(self, bg_colors, fg_colors):
         return not(self.is_on(bg_colors, fg_colors))
+
+    def draw_on_image(self, fill):
+        draw = ImageDraw.Draw(self.image)
+        draw.line([self.start, self.end], fill=fill, width=2)
+        del draw
 
 class Digit:
     def __init__(self, segment_stripes, bg_colors, fg_colors):
@@ -77,23 +79,22 @@ class Digit:
     def get_digit(self):
         return ''
 
+    def draw_on_image(self):
+        for seg in self.segment_stripes:
+            seg.draw_on_image("lightgreen")
+
 class MinusSeg(Digit):
     def get_digit(self):
-        # 0 = Minus
-
-        if(self.segment_stripes[0].is_on(self.bg_colors, self.fg_colors)):
+        if(self.segment_stripes[0].is_on(self.bg_colors, self.fg_colors)): # 0 = Minus
             return '-'
         else:
             return ''
 
 class TwoSeg(Digit):
     def get_digit(self):
-        # 0 = Top
-        # 1 = Bottom
-
         if(
-            self.segment_stripes[0].is_on(self.bg_colors, self.fg_colors)
-            and self.segment_stripes[1].is_on(self.bg_colors, self.fg_colors)
+            self.segment_stripes[0].is_on(self.bg_colors, self.fg_colors) # 0 = Top
+            and self.segment_stripes[1].is_on(self.bg_colors, self.fg_colors) # 1 = Bottom
         ):
             return '1'
         else:
@@ -101,9 +102,7 @@ class TwoSeg(Digit):
 
 class PointSeg(Digit):
     def get_digit(self):
-        # 0 = Dot
-
-        if(self.segment_stripes[0].is_on(self.bg_colors, self.fg_colors)):
+        if(self.segment_stripes[0].is_on(self.bg_colors, self.fg_colors)): # 0 = Dot
             return '.'
         else:
             return ''
@@ -220,16 +219,6 @@ class SevenSeg(Digit):
         )
 
     def get_digit(self):
-        i = 0
-        for seg in self.segment_stripes:
-            print i, ': '
-            if(seg.is_on(self.bg_colors, self.fg_colors)):
-                print 'on'
-            else:
-                print 'off'
-
-            i = i + 1
-
         if(self._is_0()):
             return '0'
         elif(self._is_1()):
@@ -252,6 +241,7 @@ class SevenSeg(Digit):
             return '9'
         else:
             return ''
+
 
 def get_bg_colors(image):
     colors = []
@@ -280,16 +270,17 @@ def get_fg_colors(image):
 
     return colors
 
-im = Image.open("test_images/20170207_135313_pc.jpg")
+# Open the source image
+
+im = Image.open("test_images/20170209_135025_pc.jpg")
 rgb_image = im.convert('RGB')
+
+# Get the BG and FG colours from known points on the image
 
 bg_colors = get_bg_colors(rgb_image)
 fg_colors = get_fg_colors(rgb_image)
 
-#print im.size
-#
-#print bg_colors
-#print fg_colors
+# Define the known digits/segments
 
 digits = [
     MinusSeg([
@@ -300,22 +291,51 @@ digits = [
         SegmentStripe(rgb_image, (99, 84), (118, 86)) # Check this, guessed numbers
     ], bg_colors, fg_colors),
     SevenSeg([
-        SegmentStripe(rgb_image, (234, 28), (224, 60)),
-        SegmentStripe(rgb_image, (253, 85), (281, 87)),
-        SegmentStripe(rgb_image, (247, 175), (273, 178)),
-        SegmentStripe(rgb_image, (210, 202), (209, 233)),
-        SegmentStripe(rgb_image, (158, 171), (178, 174)),
-        SegmentStripe(rgb_image, (160, 82), (183, 84)),
-        SegmentStripe(rgb_image, (217, 115), (217, 145))
+        SegmentStripe(rgb_image, (634, 80), (636, 170)),
+        SegmentStripe(rgb_image, (716, 240), (795, 245)),
+        SegmentStripe(rgb_image, (701, 497), (774, 503)),
+        SegmentStripe(rgb_image, (594, 573), (592, 661)),
+        SegmentStripe(rgb_image, (430, 483), (505, 493)),
+        SegmentStripe(rgb_image, (452, 232), (520, 240)),
+        SegmentStripe(rgb_image, (615, 325), (615, 413)),
+    ], bg_colors, fg_colors),
+    SevenSeg([
+        SegmentStripe(rgb_image, (1045, 80), (1047, 170)),
+        SegmentStripe(rgb_image, (1127, 240), (1206, 245)),
+        SegmentStripe(rgb_image, (1112, 497), (1185, 503)),
+        SegmentStripe(rgb_image, (1005, 573), (1003, 661)),
+        SegmentStripe(rgb_image, (841, 483), (916, 493)),
+        SegmentStripe(rgb_image, (863, 232), (931, 240)),
+        SegmentStripe(rgb_image, (1026, 325), (1026, 413))
+    ], bg_colors, fg_colors),
+    PointSeg([
+        SegmentStripe(rgb_image, (1210, 614), (1211, 660)),
+    ], bg_colors, fg_colors),
+    SevenSeg([
+        SegmentStripe(rgb_image, (1480, 80), (1482, 170)),
+        SegmentStripe(rgb_image, (1562, 240), (1641, 245)),
+        SegmentStripe(rgb_image, (1547, 497), (1620, 503)),
+        SegmentStripe(rgb_image, (1440, 573), (1438, 661)),
+        SegmentStripe(rgb_image, (1276, 483), (1351, 493)),
+        SegmentStripe(rgb_image, (1298, 232), (1366, 240)),
+        SegmentStripe(rgb_image, (1461, 325), (1461, 413))
     ], bg_colors, fg_colors)
-    # TODO: Add remaining digits (TwoSeg, SevenSeg, SevenSeg, PointSeg, SevenSeg)
 ]
 
+# Print parsed temperature
 
+
+temperature = ''
 for digit in digits:
-    print digit.get_digit()
+    temperature += digit.get_digit()
 
-#if(seg.is_on(bg_colors, fg_colors)):
-#    print "on!"
-#else:
-#    print "off :("
+print temperature
+
+
+'''
+# Draw lines on image to stdout
+for digit in digits:
+    digit.draw_on_image()
+
+rgb_image.save(sys.stdout, "PNG")
+'''
