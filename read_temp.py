@@ -38,7 +38,8 @@ def get_fg_colors(image):
 # Open the source image
 
 #im = Image.open("test_images/20170209_135025_pc.jpg")
-im = Image.open("test_images/out/test.png")
+#im = Image.open("test_images/out/test.png")
+im = Image.open("test_images/out/test_new.jpg")
 rgb_image = im.convert('RGB')
 
 # Get the BG and FG colours from known points on the image
