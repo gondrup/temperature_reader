@@ -1,7 +1,7 @@
 from tempocr.color import compare
 
 # Imported these for testing/debugging only, remove later!
-#from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw
 import sys
 
 MARKER_COLOR = [255, 158, 141]
@@ -9,6 +9,13 @@ MARKER_COLOR = [255, 158, 141]
 def in_cluster(x, y, cluster):
     for check_x, check_y in cluster:
         if (check_x == x and check_y == y):
+            return True
+
+    return False
+
+def in_clusters(x, y, clusters):
+    for check_cluster in clusters:
+        if in_cluster(x, y, check_cluster) == True:
             return True
 
     return False
@@ -30,7 +37,8 @@ def get_cluster_from_pixel_matrix_at_loc(pixel_matrix, x, y, cluster = None):
     else:
         w = 0
 
-    print 'xy:', x, y, 'wh:', w, h
+    max_x = w - 1
+    max_y = h - 1
 
     to_check = []
 
@@ -39,24 +47,24 @@ def get_cluster_from_pixel_matrix_at_loc(pixel_matrix, x, y, cluster = None):
         if (y > 0):
             to_check.append((x-1, y-1))
             to_check.append((x, y-1))
-            if (x < w):
+            if (x < max_x):
                 to_check.append((x+1, y-1))
 
         # Row 2
         to_check.append((x-1, y))
-        if (x < w):
+        if (x < max_x):
             to_check.append((x+1, y))
 
         # Row 3
-        if (y < h):
+        if (y < max_y):
             to_check.append((x-1, y+1))
             to_check.append((x, y+1))
 
-            if (x < w):
+            if (x < max_x):
                 to_check.append((x+1, y+1))
 
     for check_x, check_y in to_check:
-        if in_cluster(check_x, check_y, cluster) == False and pixel_matrix[check_x][check_y] == True:
+        if in_cluster(check_x, check_y, cluster) == False and pixel_matrix[check_y][check_x] == True:
             cluster.append((check_x, check_y))
             cluster = get_cluster_from_pixel_matrix_at_loc(pixel_matrix, check_x, check_y, cluster)
 
@@ -72,15 +80,16 @@ def add_cluster_from_pixel_matrix_at_loc(clusters, pixel_matrix, x, y):
 def find_clusters_from_pixel_matrix(pixel_matrix):
     clusters = []
 
-    for y, row in enumerate(pixel_matrix, 0):
-        for x, value in enumerate(row, 0):
+    for y, row in enumerate(pixel_matrix):
+        for x, value in enumerate(row):
             if (value == True):
                 if len(clusters) > 0:
-                    for check_cluster in clusters:
-                        if in_cluster(x, y, check_cluster) == False:
-                            clusters = add_cluster_from_pixel_matrix_at_loc(clusters, pixel_matrix, x, y)
+                    if in_clusters(x, y, clusters) == False:
+                        clusters = add_cluster_from_pixel_matrix_at_loc(clusters, pixel_matrix, x, y)
                 else:
                     clusters = add_cluster_from_pixel_matrix_at_loc(clusters, pixel_matrix, x, y)
+
+
 
     return clusters
 
@@ -112,7 +121,20 @@ def find_screen(im):
 
     clusters = find_clusters_from_pixel_matrix(marker_pixel_matrix)
 
-    print len(clusters)
+    # Include only the 4 largest clusters
+    clusters.sort(lambda x,y: cmp(len(y), len(x)))
+    clusters = clusters[:4]
+
+    #print len(clusters)
+
+    #for index, cluster in enumerate(clusters):
+
+    draw = ImageDraw.Draw(rgb_im)
+    for cluster in clusters:
+        for x, y in cluster:
+            draw.point((x, y), fill="lightgreen")
+
+    rgb_im.save(sys.stdout, "PNG")
 
     # 3. Determine which clusters represent which corner
     # 4. Create Marker objects for each cluster (total 4)
