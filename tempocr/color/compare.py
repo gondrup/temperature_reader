@@ -18,7 +18,7 @@ from colormath.color_objects import sRGBColor, LabColor
 from colormath.color_conversions import convert_color
 from colormath.color_diff import delta_e_cie2000
 
-SIMILARITY_THRESHOLD = 5
+SIMILARITY_THRESHOLD = 10
 
 def get_difference(pixel_a, pixel_b):
 	color1_rgb = sRGBColor((pixel_a[0]/255.0), (pixel_a[1]/255.0), (pixel_a[2]/255.0));

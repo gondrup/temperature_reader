@@ -2,7 +2,7 @@ from PIL import Image
 import subprocess
 from subprocess import call
 import sys
-import screen
+from tempocr import screen
 
 def fix_perspective(image_file):
     # 1. Load image
