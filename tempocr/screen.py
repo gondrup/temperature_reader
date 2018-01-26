@@ -2,9 +2,29 @@ from tempocr.color import compare
 
 # Imported these for testing/debugging only, remove later!
 from PIL import Image, ImageDraw
+from pprint import pprint
+
 import sys
 
 MARKER_COLOR = [255, 158, 141]
+
+class Marker:
+    def __init__(self, point_tl, point_br):
+        self.point_tl = point_tl
+        self.point_br = point_br
+
+    def is_above(self, marker):
+        return self.point_tl[1] > marker.point_tl[1]
+
+    def is_left_of(self, marker):
+        return self.point_tl[0] < marker.point_tl[0]
+
+class Screen:
+    def __init__(self, markerTL, markerTR, markerBL, markerBR):
+        self.markerTL = markerTL
+        self.markerTR = markerTR
+        self.markerBL = markerBL
+        self.markerBR = markerBR
 
 def in_cluster(x, y, cluster):
     for check_x, check_y in cluster:
@@ -121,7 +141,7 @@ def find_screen(im):
 
     clusters = find_clusters_from_pixel_matrix(marker_pixel_matrix)
 
-    # Include only the 4 largest clusters
+    # Include only the 4 largest clusters, these should be the corners
     clusters.sort(lambda x,y: cmp(len(y), len(x)))
     clusters = clusters[:4]
 
@@ -129,38 +149,52 @@ def find_screen(im):
 
     #for index, cluster in enumerate(clusters):
 
-    draw = ImageDraw.Draw(rgb_im)
+    #draw = ImageDraw.Draw(rgb_im)
+    #for cluster in clusters:
+    #    for x, y in cluster:
+    #        draw.point((x, y), fill="lightgreen")
+    #
+    #rgb_im.save(sys.stdout, "PNG")
+
+    # 3. Create Marker objects for each cluster (total 4)
+
+    markers = []
     for cluster in clusters:
-        for x, y in cluster:
-            draw.point((x, y), fill="lightgreen")
+        markers.append(cluster_to_marker(cluster))
 
-    rgb_im.save(sys.stdout, "PNG")
+    # 4. Determine which clusters represent which corner
 
-    # 3. Determine which clusters represent which corner
-    # 4. Create Marker objects for each cluster (total 4)
+    markerTL = None
+    markerTR = None
+    markerBR = None
+    markerBL = None
+
+    markers.sort(lambda x,y: cmp(x.point_tl[0], y.point_tl[0]))
+    markers.sort(lambda x,y: cmp(x.point_tl[1], y.point_tl[1]))
+    
+    markerTL = markers[0]
+    markerTR = markers[1]
+
+    markers.sort(lambda x,y: cmp(y.point_tl[1], x.point_tl[1]))
+    markers.sort(lambda x,y: cmp(x.point_tl[0], y.point_tl[0]))
+
+    markerBL = markers[0]
+    markerBR = markers[1]
+
     # 5. Create and return a Screen object with these markers
 
+    screen = Screen(markerTL, markerTR, markerBL, markerBR)
 
-class Marker:
-    COORD_HIGHEST = "H"
-    COORD_LOWEST = "L"
+    print 'TL', markerTL.point_tl, markerTL.point_br
+    print 'TR', markerTR.point_tl, markerTR.point_br
+    print 'BL', markerBL.point_tl, markerBL.point_br
+    print 'BR', markerBR.point_tl, markerBR.point_br
 
-    def __init__(self, coords):
-        self.coords = coords
 
-    def get_coords(x_hl, y_hl):
-        found_x = 0
-        found_y = 0
 
-#        for x, y in coords:
- #           if(x_hl = self.COORD_HIGHEST)
 
-    def get_point_tl():
-        return 0
+def cluster_to_marker(cluster):
+    cluster.sort(lambda x,y: cmp(x[1], y[1]))
+    cluster.sort(lambda x,y: cmp(x[0], y[0]))
 
-class Screen:
-    def __init__(self, markerTL, markerTR, markerBR, markerBL):
-        self.markerTL = markerTL
-        self.markerTR = markerTR
-        self.markerBR = markerBR
-        self.markerBL = markerBL
+    return Marker(cluster[0], cluster[-1])
