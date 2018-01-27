@@ -2,6 +2,8 @@
 
 Takes a webcam image of my cheap chinese temperature monitor and gets the current temperature by recognising the digits on the screen.
 
+**NOTE: This is a work in progress and is not complete.**
+
 ## Process
 
 ![Chinese Temperature Monitor](https://raw.githubusercontent.com/gondrup/temperature_reader/master/test_images/auto_2018-01-25_165521.jpg "Chinese Temperature Monitor")
