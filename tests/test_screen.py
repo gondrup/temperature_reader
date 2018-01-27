@@ -91,7 +91,7 @@ class TestScreen(unittest.TestCase):
         clusters = screen.add_cluster_from_pixel_matrix_at_loc(clusters, pixel_matrix, 4, 4)
         assert len(clusters) == 0
 
-    def test_find_clusters_from_pixel_matrix(self):
+    def test_find_clusters_in_pixel_matrix(self):
         pixel_matrix = [
             [False, False, False, False, False],
             [False, True, False, False, False],
@@ -100,8 +100,19 @@ class TestScreen(unittest.TestCase):
             [False, False, False, False, False],
         ]
 
-        clusters = screen.find_clusters_from_pixel_matrix(pixel_matrix)
+        clusters = screen.find_clusters_in_pixel_matrix(pixel_matrix)
         assert len(clusters) == 1
+
+    def test_cluster_to_marker(self):
+        cluster = [(1, 1), (1, 2), (2, 2)]
+
+        marker = screen.cluster_to_marker(cluster)
+
+        self.assertIsNotNone(marker)
+        self.assertIsInstance(marker, screen.Marker)
+
+        assert marker.point_tl == (1, 1)
+        assert marker.point_br == (2, 2)
 
 if __name__ == '__main__':
     unittest.main()

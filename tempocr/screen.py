@@ -97,7 +97,7 @@ def add_cluster_from_pixel_matrix_at_loc(clusters, pixel_matrix, x, y):
 
     return clusters
 
-def find_clusters_from_pixel_matrix(pixel_matrix):
+def find_clusters_in_pixel_matrix(pixel_matrix):
     clusters = []
 
     for y, row in enumerate(pixel_matrix):
@@ -113,7 +113,13 @@ def find_clusters_from_pixel_matrix(pixel_matrix):
 
     return clusters
 
-def find_screen(im):
+def cluster_to_marker(cluster):
+    cluster.sort(lambda x,y: cmp(x[1], y[1]))
+    cluster.sort(lambda x,y: cmp(x[0], y[0]))
+
+    return Marker(cluster[0], cluster[-1])
+
+def get_marker_pixel_matrix_from_image(im):
     rgb_im = im.convert('RGB')
 
     #draw = ImageDraw.Draw(rgb_im)
@@ -123,7 +129,7 @@ def find_screen(im):
 
     marker_pixel_matrix = [[False for x in range(w)] for y in range(h)] 
 
-    # 1. Find pixels that contain colours similar to expected marker colour
+    
 
     for i in range(h):
         for j in range(w):
@@ -137,10 +143,9 @@ def find_screen(im):
 
     #rgb_im.save(sys.stdout, "PNG")
 
-    # 2. Determine pixel clusters
+    return marker_pixel_matrix
 
-    clusters = find_clusters_from_pixel_matrix(marker_pixel_matrix)
-
+def get_markers_from_clusters(clusters):
     # Include only the 4 largest clusters, these should be the corners
     clusters.sort(lambda x,y: cmp(len(y), len(x)))
     clusters = clusters[:4]
@@ -156,14 +161,13 @@ def find_screen(im):
     #
     #rgb_im.save(sys.stdout, "PNG")
 
-    # 3. Create Marker objects for each cluster (total 4)
-
     markers = []
     for cluster in clusters:
         markers.append(cluster_to_marker(cluster))
 
-    # 4. Determine which clusters represent which corner
+    return markers
 
+def create_screen_from_markers(markers):
     markerTL = None
     markerTR = None
     markerBR = None
@@ -181,8 +185,6 @@ def find_screen(im):
     markerBL = markers[0]
     markerBR = markers[1]
 
-    # 5. Create and return a Screen object with these markers
-
     screen = Screen(markerTL, markerTR, markerBL, markerBR)
 
     print 'TL', markerTL.point_tl, markerTL.point_br
@@ -190,11 +192,20 @@ def find_screen(im):
     print 'BL', markerBL.point_tl, markerBL.point_br
     print 'BR', markerBR.point_tl, markerBR.point_br
 
+    return screen
 
+def find_screen(im):
+    # TODO: Add test for this (with basic fixture image)
+    # 1. Find pixels that contain colours similar to expected marker colour
+    marker_pixel_matrix = get_marker_pixel_matrix_from_image(im)
 
+    # 2. Determine pixel clusters
+    clusters = find_clusters_in_pixel_matrix(marker_pixel_matrix)
 
-def cluster_to_marker(cluster):
-    cluster.sort(lambda x,y: cmp(x[1], y[1]))
-    cluster.sort(lambda x,y: cmp(x[0], y[0]))
+    # TODO: Add test for this
+    # 3. Create Marker objects for each cluster (total 4)
+    markers = get_markers_from_clusters(clusters)
 
-    return Marker(cluster[0], cluster[-1])
+    # TODO: Add test for this
+    # 4. Create and return a Screen object with these markers
+    return create_screen_from_markers(markers)
