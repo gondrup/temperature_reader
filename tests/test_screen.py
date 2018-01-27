@@ -152,9 +152,22 @@ class TestScreen(unittest.TestCase):
         for y, row in enumerate(marker_matrix):
             for x, col in enumerate(row):
                 if self.pixel_active_in_fixture(x, y):
-                    assert col == True
+                    assert col == True, "Active pixel expected at %d, %d" % (x, y)
                 else:
-                    assert col == False
+                    assert col == False, "Inactive pixel expected at %d, %d" % (x, y)
+
+    def test_get_markers_from_clusters(self):
+        clusters = [
+            [(1, 1),(1, 2),(1, 3),(1, 4),(5, 5)],
+            [(101, 1),(101, 2),(101, 3),(101, 4),(105, 5)],
+            [(1, 101),(1, 102),(1, 103),(1, 104),(5, 105)],
+            [(101, 101),(101, 102),(101, 103),(101, 104),(105, 105)],
+            [(51, 51),(51, 52)]
+        ]
+
+        markers = screen.get_markers_from_clusters(clusters)
+
+        assert len(markers) == 4
 
 if __name__ == '__main__':
     unittest.main()
