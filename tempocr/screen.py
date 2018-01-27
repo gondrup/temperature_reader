@@ -129,8 +129,6 @@ def get_marker_pixel_matrix_from_image(im):
 
     marker_pixel_matrix = [[False for x in range(w)] for y in range(h)] 
 
-    
-
     for i in range(h):
         for j in range(w):
             #row = [rgb_im.getpixel((j,i)) ]
