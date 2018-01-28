@@ -169,6 +169,26 @@ class TestScreen(unittest.TestCase):
 
         assert len(markers) == 4
 
+    def test_create_screen_from_markers(self):
+        pointTL = (1, 1), (5, 5)
+        pointTR = (101, 1), (105, 5)
+        pointBL = (1, 101), (5, 105)
+        pointBR = (101, 101), (105, 105)
+
+        markers = [
+            screen.Marker(pointTR[0], pointTR[1]),
+            screen.Marker(pointTL[0], pointTL[1]),
+            screen.Marker(pointBR[0], pointBR[1]),
+            screen.Marker(pointBL[0], pointBL[1]),
+        ]
+
+        created_screen = screen.create_screen_from_markers(markers)
+
+        assert created_screen.markerTL.point_tl == pointTL[0], "Top left point wrong, expected: %s - got: %s" % (pointTL[0], created_screen.markerTL.point_tl)
+        assert created_screen.markerTR.point_tl == pointTR[0], "Top right point wrong, expected: %s - got: %s" % (pointTR[0], created_screen.markerTR.point_tl)
+        assert created_screen.markerBL.point_tl == pointBL[0], "Bottom left point wrong, expected: %s - got: %s" % (pointBL[0], created_screen.markerBL.point_tl)
+        assert created_screen.markerBR.point_tl == pointBR[0], "Bottom right point wrong, expected: %s - got: %s" % (pointBR[0], created_screen.markerBR.point_tl)
+
 if __name__ == '__main__':
     unittest.main()
 

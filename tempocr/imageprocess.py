@@ -4,6 +4,11 @@ from subprocess import call
 import sys
 from tempocr import screen
 
+def get_coords_str_from_screen(screen, image_width, image_height):
+    coords_str = ''
+
+    coords_str += str(screen.markerTL.point_br[0])
+
 def fix_perspective(image_file):
     # 1. Load image
 
@@ -16,27 +21,25 @@ def fix_perspective(image_file):
 
     # 3. Use the found screen object to fix the perspective and crop the image
 
-    exit(0)
-
     # Find coords
 
-    proc = subprocess.Popen(["convert", image_file, "txt:"],stdout=subprocess.PIPE)
-    while True:
-        line = proc.stdout.readline()
-        if line != '':
-            #the real code does filtering here
-            print "test:", line.rstrip()
-        else:
-            break
+    #proc = subprocess.Popen(["convert", image_file, "txt:"],stdout=subprocess.PIPE)
+    #while True:
+    #    line = proc.stdout.readline()
+    #    if line != '':
+    #        #the real code does filtering here
+    #        print "test:", line.rstrip()
+    #    else:
+    #        break
+    #
+    #return im
 
-    return im
-
-    coords = [
-        [(645,1632), (0,0)],
-        [(743,2941), (0,height)],
-        [(2600,2993), (width,height)],
-        [(2592,1494), (width,0)],
-    ]
+    #coords = [
+    #    [(645,1632), (0,0)],
+    #    [(743,2941), (0,height)],
+    #    [(2600,2993), (width,height)],
+    #    [(2592,1494), (width,0)],
+    #]
 
     # Run the perspective fix with IM
 

@@ -166,29 +166,27 @@ def get_markers_from_clusters(clusters):
     return markers
 
 def create_screen_from_markers(markers):
+    if len(markers) != 4:
+        raise ValueError('Expected 4 screen marker points, got %d' % (len(markers)))
+
     markerTL = None
     markerTR = None
     markerBR = None
     markerBL = None
 
-    markers.sort(lambda x,y: cmp(x.point_tl[0], y.point_tl[0]))
-    markers.sort(lambda x,y: cmp(x.point_tl[1], y.point_tl[1]))
+    markers.sort(lambda left,right: cmp(left.point_tl[0], right.point_tl[0]))
+    markers.sort(lambda left,right: cmp(left.point_tl[1], right.point_tl[1]))
     
     markerTL = markers[0]
     markerTR = markers[1]
 
-    markers.sort(lambda x,y: cmp(y.point_tl[1], x.point_tl[1]))
-    markers.sort(lambda x,y: cmp(x.point_tl[0], y.point_tl[0]))
+    markers.sort(lambda left,right: cmp(left.point_tl[0], right.point_tl[0]))
+    markers.sort(lambda left,right: cmp(right.point_tl[1], left.point_tl[1]))
 
     markerBL = markers[0]
     markerBR = markers[1]
 
     screen = Screen(markerTL, markerTR, markerBL, markerBR)
-
-    print 'TL', markerTL.point_tl, markerTL.point_br
-    print 'TR', markerTR.point_tl, markerTR.point_br
-    print 'BL', markerBL.point_tl, markerBL.point_br
-    print 'BR', markerBR.point_tl, markerBR.point_br
 
     return screen
 
