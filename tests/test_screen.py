@@ -189,6 +189,25 @@ class TestScreen(unittest.TestCase):
         assert created_screen.markerBL.point_tl == pointBL[0], "Bottom left point wrong, expected: %s - got: %s" % (pointBL[0], created_screen.markerBL.point_tl)
         assert created_screen.markerBR.point_tl == pointBR[0], "Bottom right point wrong, expected: %s - got: %s" % (pointBR[0], created_screen.markerBR.point_tl)
 
+        pointTL = (1, 8), (12, 13)
+        pointTR = (38, 8), (40, 12)
+        pointBL = (13, 35), (17, 38)
+        pointBR = (40, 38), (45, 43)
+
+        markers = [
+            screen.Marker(pointTL[0], pointTL[1]),
+            screen.Marker(pointTR[0], pointTR[1]),
+            screen.Marker(pointBL[0], pointBL[1]),
+            screen.Marker(pointBR[0], pointBR[1]),
+        ]
+
+        created_screen = screen.create_screen_from_markers(markers)
+
+        assert created_screen.markerTL.point_tl == pointTL[0], "Top left point wrong, expected: %s - got: %s" % (pointTL[0], created_screen.markerTL.point_tl)
+        assert created_screen.markerTR.point_tl == pointTR[0], "Top right point wrong, expected: %s - got: %s" % (pointTR[0], created_screen.markerTR.point_tl)
+        assert created_screen.markerBL.point_tl == pointBL[0], "Bottom left point wrong, expected: %s - got: %s" % (pointBL[0], created_screen.markerBL.point_tl)
+        assert created_screen.markerBR.point_tl == pointBR[0], "Bottom right point wrong, expected: %s - got: %s" % (pointBR[0], created_screen.markerBR.point_tl)
+
 if __name__ == '__main__':
     unittest.main()
 

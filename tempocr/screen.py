@@ -174,17 +174,25 @@ def create_screen_from_markers(markers):
     markerBR = None
     markerBL = None
 
-    markers.sort(lambda left,right: cmp(left.point_tl[0], right.point_tl[0]))
-    markers.sort(lambda left,right: cmp(left.point_tl[1], right.point_tl[1]))
-    
-    markerTL = markers[0]
-    markerTR = markers[1]
+    # Top/Bottom
+    markers.sort(lambda marker,cmp_marker: cmp(marker.point_br[1], cmp_marker.point_br[1]))
+    top_markers = [markers[0], markers[1]]
+    bottom_markers = [markers[2], markers[3]]
 
-    markers.sort(lambda left,right: cmp(left.point_tl[0], right.point_tl[0]))
-    markers.sort(lambda left,right: cmp(right.point_tl[1], left.point_tl[1]))
+    # Left/Right
+    if top_markers[0].point_br[0] >= top_markers[1].point_br[0]:
+        markerTL = top_markers[1]
+        markerTR = top_markers[0]
+    else:
+        markerTL = top_markers[0]
+        markerTR = top_markers[1]
 
-    markerBL = markers[0]
-    markerBR = markers[1]
+    if bottom_markers[0].point_tl[0] >= bottom_markers[1].point_tl[0]:
+        markerBL = bottom_markers[1]
+        markerBR = bottom_markers[0]
+    else:
+        markerBL = bottom_markers[0]
+        markerBR = bottom_markers[1]
 
     screen = Screen(markerTL, markerTR, markerBL, markerBR)
 

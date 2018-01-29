@@ -1,13 +1,17 @@
 from PIL import Image
 import subprocess
-from subprocess import call
 import sys
 from tempocr import screen
 
-def get_coords_str_from_screen(screen, image_width, image_height):
+def get_coords_str_from_screen(screen, image_width, image_height, offsets = None):
     coords_str = ''
 
-    coords_str += str(screen.markerTL.point_br[0])
+    coords_str += '%d,%d,%d,%d' % (screen.markerTL.point_br[0], screen.markerTL.point_br[1], 0, 0)
+    coords_str += ' %d,%d,%d,%d' % (screen.markerTR.point_tl[0], screen.markerTR.point_br[1], image_width, 0)
+    coords_str += ' %d,%d,%d,%d' % (screen.markerBL.point_br[0], screen.markerBL.point_tl[1], 0, image_height)
+    coords_str += ' %d,%d,%d,%d' % (screen.markerBR.point_tl[0], screen.markerBR.point_tl[1], image_width, image_height)
+    
+    return coords_str
 
 def fix_perspective(image_file):
     # 1. Load image
@@ -20,6 +24,20 @@ def fix_perspective(image_file):
     found_screen = screen.find_screen(im)
 
     # 3. Use the found screen object to fix the perspective and crop the image
+
+    coords_str = get_coords_str_from_screen(found_screen, width, height)
+
+    #print 'Cropping %dx%d image with coords: %s' % (width, height, coords_str)
+
+    cmd = [
+        "convert", image_file, "-matte", "-virtual-pixel", "transparent",
+        "-distort", "Perspective", coords_str,
+        "-resize", "640x480!",
+        "txt:"
+    ]
+
+    output_stream = subprocess.Popen(cmd, stdout=subprocess.PIPE).stdout
+    return output_stream
 
     # Find coords
 
@@ -43,19 +61,12 @@ def fix_perspective(image_file):
 
     # Run the perspective fix with IM
 
-    coords_str = ""
-    for point_from, point_to in coords:
-        coords_str += str(point_from[0]) + "," + str(point_from[1])
-        coords_str += " " + str(point_to[0]) + "," + str(point_to[1]) + " "
+    #coords_str = ""
+    #for point_from, point_to in coords:
+    #    coords_str += str(point_from[0]) + "," + str(point_from[1])
+    #    coords_str += " " + str(point_to[0]) + "," + str(point_to[1]) + " "
 
-    print "Coords: " + coords_str
-
-    call([
-        "convert", image_file, "-matte", "-virtual-pixel", "transparent",
-        "-distort", "Perspective", coords_str,
-        "-resize", "1936x1360!",
-        "test_images/out/test.png"
-    ])
+    #print "Coords: " + coords_str
 
     # First attempt, didn't work, way too complicated
     '''
