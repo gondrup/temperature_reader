@@ -1,9 +1,4 @@
 from tempocr.color import compare
-
-# Imported these for testing/debugging only, remove later!
-from PIL import Image, ImageDraw
-from pprint import pprint
-
 import sys
 
 MARKER_COLOR = [255, 158, 141]
@@ -122,8 +117,6 @@ def cluster_to_marker(cluster):
 def get_marker_pixel_matrix_from_image(im):
     rgb_im = im.convert('RGB')
 
-    #draw = ImageDraw.Draw(rgb_im)
-
     w = rgb_im.size[0]
     h = rgb_im.size[1]
 
@@ -131,15 +124,10 @@ def get_marker_pixel_matrix_from_image(im):
 
     for i in range(h):
         for j in range(w):
-            #row = [rgb_im.getpixel((j,i)) ]
             pixel = rgb_im.getpixel((j, i))
 
             if(compare.is_similar(pixel, MARKER_COLOR, compare.SIMILARITY_THRESHOLD)):
-                #print "Match!", j, i, pixel
-                #draw.point((j, i), fill="lightgreen")
                 marker_pixel_matrix[i][j] = True
-
-    #rgb_im.save(sys.stdout, "PNG")
 
     return marker_pixel_matrix
 
@@ -147,17 +135,6 @@ def get_markers_from_clusters(clusters):
     # Include only the 4 largest clusters, these should be the corners
     clusters.sort(lambda x,y: cmp(len(y), len(x)))
     clusters = clusters[:4]
-
-    #print len(clusters)
-
-    #for index, cluster in enumerate(clusters):
-
-    #draw = ImageDraw.Draw(rgb_im)
-    #for cluster in clusters:
-    #    for x, y in cluster:
-    #        draw.point((x, y), fill="lightgreen")
-    #
-    #rgb_im.save(sys.stdout, "PNG")
 
     markers = []
     for cluster in clusters:
@@ -199,17 +176,14 @@ def create_screen_from_markers(markers):
     return screen
 
 def find_screen(im):
-    # TODO: Add test for this (with basic fixture image)
     # 1. Find pixels that contain colours similar to expected marker colour
     marker_pixel_matrix = get_marker_pixel_matrix_from_image(im)
 
     # 2. Determine pixel clusters
     clusters = find_clusters_in_pixel_matrix(marker_pixel_matrix)
 
-    # TODO: Add test for this
     # 3. Create Marker objects for each cluster (total 4)
     markers = get_markers_from_clusters(clusters)
 
-    # TODO: Add test for this
     # 4. Create and return a Screen object with these markers
     return create_screen_from_markers(markers)

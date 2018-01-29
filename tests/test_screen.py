@@ -210,27 +210,3 @@ class TestScreen(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-
-'''
-        print '___'
-        print '___'
-
-        for row in marker_matrix:
-            row_txt = ''
-
-            for col in row:
-                if col == True:
-                    row_txt += '#'
-                else:
-                    row_txt += '.'
-
-            print row_txt
-
-        print '___'
-        print '___'
-
-        assert marker_matrix[0][0] == False
-        assert marker_matrix[10][8] == False
-        assert marker_matrix[10][9] == True
-'''

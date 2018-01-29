@@ -10,7 +10,6 @@ from tempocr import imageprocess
 class TestImageProcess(unittest.TestCase):
     def test_get_coords_str_from_screen(self):
         # Original test with made up coords
-
         markerTL = screen.Marker((1, 1), (5, 5))
         markerTR = screen.Marker((101, 1), (105, 5))
         markerBL = screen.Marker((1, 101), (5, 105))
@@ -27,7 +26,6 @@ class TestImageProcess(unittest.TestCase):
         assert coords_str == expected, 'Coords string didn\'t match, expected: %s got: %s' % (expected, coords_str)
 
         # New test based on fixture image
-
         markerTL = screen.Marker((1, 8), (12, 13))
         markerTR = screen.Marker((38, 8), (40, 12))
         markerBL = screen.Marker((13, 35), (17, 38))
@@ -44,14 +42,10 @@ class TestImageProcess(unittest.TestCase):
         assert coords_str == expected, 'Coords string didn\'t match, expected: %s got: %s' % (expected, coords_str)
 
     def test_fix_perspective(self):
-        image_file = "tests/fixtures/markers_with_box.gif"
+        image_file = 'tests/fixtures/markers_with_box.gif'
         im = Image.open(image_file)
 
         fixed_image = imageprocess.fix_perspective(image_file)
-
-        #file = open('tests/fixtures/out.png', 'w')
-        #file.write(fixed_image)
-        #file.close()
 
         assert fixed_image != None
 
