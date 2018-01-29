@@ -6,7 +6,7 @@ Takes a webcam image of my cheap chinese temperature monitor and gets the curren
 
 ## Process
 
-![Chinese Temperature Monitor](https://raw.githubusercontent.com/gondrup/temperature_reader/master/test_images/auto_2018-01-25_165521.jpg "Chinese Temperature Monitor")
+![Chinese Temperature Monitor](https://raw.githubusercontent.com/gondrup/temperature_reader/master/test_images/auto_2018-01-29_141232.jpg "Chinese Temperature Monitor")
 
 1. Find latest image and process it (imageprocess.py)
 	- Find and load latest image from webcam (similar to the example image)
