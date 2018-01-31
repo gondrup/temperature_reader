@@ -6,7 +6,6 @@ import sys
 
 # TODO: Normalize coordinates so image can be any size (reference image size was: 1936 x 1360)
 # TODO: Read file name from argv
-# TODO: Fix perspective and pre-crop image:
 
 def get_bg_colors(image):
     colors = []

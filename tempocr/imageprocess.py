@@ -30,6 +30,7 @@ def fix_perspective(image_file):
 
     temp_file = tempfile.NamedTemporaryFile()
 
+    # TODO: Use input image resolution as output resolution below
     cmd = [
         'convert', image_file, '-matte', '-virtual-pixel', 'transparent',
         '-distort', 'Perspective', coords_str,
