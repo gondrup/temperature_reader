@@ -24,3 +24,7 @@ Run all tests with this command from the project directory:
 ```bash
 python -m unittest discover -s tests
 ```
+
+# Supporting Spreadsheet
+
+Some coordinate calculations can be found on the [Google Sheet](https://docs.google.com/spreadsheets/d/14z58qDwLv3IFIqYmGrKh-dDi_LGai2fQFcGIiLmRNcQ/edit)
