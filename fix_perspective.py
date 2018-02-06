@@ -4,7 +4,8 @@ from os import path
 from tempocr import imageprocess
 
 #image_file = 'test_images/auto_2018-01-29_141232.jpg'
-image_file = 'test_images/auto_2018-02-06_135534.jpg'
+#image_file = 'test_images/auto_2018-02-06_135534.jpg'
+image_file = 'test_images/20180206_153314_scaled_down.jpg'
 #image_file = 'tests/fixtures/markers_with_box.gif'
 output_file = '{}/{}_fixed.png'.format(path.dirname(image_file), path.splitext(path.basename(image_file))[0]);
 

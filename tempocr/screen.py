@@ -1,7 +1,8 @@
 from tempocr.color import compare
 import sys
 
-MARKER_COLOR = [255, 158, 141]
+#MARKER_COLOR = [255, 158, 141]
+MARKER_COLOR = [255, 100, 60]
 
 class Marker:
     def __init__(self, point_tl, point_br):
