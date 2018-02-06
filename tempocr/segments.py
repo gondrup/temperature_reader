@@ -93,7 +93,7 @@ class SevenSeg(Digit):
             and self.segment_stripes[2].is_on(self.bg_colors, self.fg_colors) # 2 = Bottom Right
             and self.segment_stripes[3].is_on(self.bg_colors, self.fg_colors) # 3 = Bottom
             and self.segment_stripes[4].is_on(self.bg_colors, self.fg_colors) # 4 = Bottom Left
-            and self.segment_stripes[5].is_on(self.bg_colors, self.fg_colors) # 5 = Too Left
+            and self.segment_stripes[5].is_on(self.bg_colors, self.fg_colors) # 5 = Top Left
             and self.segment_stripes[6].is_off(self.bg_colors, self.fg_colors) # 6 = Middle
         )
 
@@ -104,7 +104,7 @@ class SevenSeg(Digit):
             and self.segment_stripes[2].is_on(self.bg_colors, self.fg_colors) # 2 = Bottom Right
             and self.segment_stripes[3].is_off(self.bg_colors, self.fg_colors) # 3 = Bottom
             and self.segment_stripes[4].is_off(self.bg_colors, self.fg_colors) # 4 = Bottom Left
-            and self.segment_stripes[5].is_off(self.bg_colors, self.fg_colors) # 5 = Too Left
+            and self.segment_stripes[5].is_off(self.bg_colors, self.fg_colors) # 5 = Top Left
             and self.segment_stripes[6].is_off(self.bg_colors, self.fg_colors) # 6 = Middle
         )
 
@@ -115,7 +115,7 @@ class SevenSeg(Digit):
             and self.segment_stripes[2].is_off(self.bg_colors, self.fg_colors) # 2 = Bottom Right
             and self.segment_stripes[3].is_on(self.bg_colors, self.fg_colors) # 3 = Bottom
             and self.segment_stripes[4].is_on(self.bg_colors, self.fg_colors) # 4 = Bottom Left
-            and self.segment_stripes[5].is_off(self.bg_colors, self.fg_colors) # 5 = Too Left
+            and self.segment_stripes[5].is_off(self.bg_colors, self.fg_colors) # 5 = Top Left
             and self.segment_stripes[6].is_on(self.bg_colors, self.fg_colors) # 6 = Middle
         )
 
@@ -126,7 +126,7 @@ class SevenSeg(Digit):
             and self.segment_stripes[2].is_on(self.bg_colors, self.fg_colors) # 2 = Bottom Right
             and self.segment_stripes[3].is_on(self.bg_colors, self.fg_colors) # 3 = Bottom
             and self.segment_stripes[4].is_off(self.bg_colors, self.fg_colors) # 4 = Bottom Left
-            and self.segment_stripes[5].is_off(self.bg_colors, self.fg_colors) # 5 = Too Left
+            and self.segment_stripes[5].is_off(self.bg_colors, self.fg_colors) # 5 = Top Left
             and self.segment_stripes[6].is_on(self.bg_colors, self.fg_colors) # 6 = Middle
         )
 
@@ -137,7 +137,7 @@ class SevenSeg(Digit):
             and self.segment_stripes[2].is_on(self.bg_colors, self.fg_colors) # 2 = Bottom Right
             and self.segment_stripes[3].is_off(self.bg_colors, self.fg_colors) # 3 = Bottom
             and self.segment_stripes[4].is_off(self.bg_colors, self.fg_colors) # 4 = Bottom Left
-            and self.segment_stripes[5].is_on(self.bg_colors, self.fg_colors) # 5 = Too Left
+            and self.segment_stripes[5].is_on(self.bg_colors, self.fg_colors) # 5 = Top Left
             and self.segment_stripes[6].is_on(self.bg_colors, self.fg_colors) # 6 = Middle
         )
 
@@ -148,7 +148,7 @@ class SevenSeg(Digit):
             and self.segment_stripes[2].is_on(self.bg_colors, self.fg_colors) # 2 = Bottom Right
             and self.segment_stripes[3].is_on(self.bg_colors, self.fg_colors) # 3 = Bottom
             and self.segment_stripes[4].is_off(self.bg_colors, self.fg_colors) # 4 = Bottom Left
-            and self.segment_stripes[5].is_on(self.bg_colors, self.fg_colors) # 5 = Too Left
+            and self.segment_stripes[5].is_on(self.bg_colors, self.fg_colors) # 5 = Top Left
             and self.segment_stripes[6].is_on(self.bg_colors, self.fg_colors) # 6 = Middle
         )
 
@@ -159,7 +159,7 @@ class SevenSeg(Digit):
             and self.segment_stripes[2].is_on(self.bg_colors, self.fg_colors) # 2 = Bottom Right
             and self.segment_stripes[3].is_on(self.bg_colors, self.fg_colors) # 3 = Bottom
             and self.segment_stripes[4].is_on(self.bg_colors, self.fg_colors) # 4 = Bottom Left
-            and self.segment_stripes[5].is_on(self.bg_colors, self.fg_colors) # 5 = Too Left
+            and self.segment_stripes[5].is_on(self.bg_colors, self.fg_colors) # 5 = Top Left
             and self.segment_stripes[6].is_on(self.bg_colors, self.fg_colors) # 6 = Middle
         )
 
@@ -170,7 +170,7 @@ class SevenSeg(Digit):
             and self.segment_stripes[2].is_on(self.bg_colors, self.fg_colors) # 2 = Bottom Right
             and self.segment_stripes[3].is_off(self.bg_colors, self.fg_colors) # 3 = Bottom
             and self.segment_stripes[4].is_off(self.bg_colors, self.fg_colors) # 4 = Bottom Left
-            and self.segment_stripes[5].is_off(self.bg_colors, self.fg_colors) # 5 = Too Left
+            and self.segment_stripes[5].is_off(self.bg_colors, self.fg_colors) # 5 = Top Left
             and self.segment_stripes[6].is_off(self.bg_colors, self.fg_colors) # 6 = Middle
         )
 
@@ -181,7 +181,7 @@ class SevenSeg(Digit):
             and self.segment_stripes[2].is_on(self.bg_colors, self.fg_colors) # 2 = Bottom Right
             and self.segment_stripes[3].is_on(self.bg_colors, self.fg_colors) # 3 = Bottom
             and self.segment_stripes[4].is_on(self.bg_colors, self.fg_colors) # 4 = Bottom Left
-            and self.segment_stripes[5].is_on(self.bg_colors, self.fg_colors) # 5 = Too Left
+            and self.segment_stripes[5].is_on(self.bg_colors, self.fg_colors) # 5 = Top Left
             and self.segment_stripes[6].is_on(self.bg_colors, self.fg_colors) # 6 = Middle
         )
 
@@ -192,7 +192,7 @@ class SevenSeg(Digit):
             and self.segment_stripes[2].is_on(self.bg_colors, self.fg_colors) # 2 = Bottom Right
             and self.segment_stripes[3].is_on(self.bg_colors, self.fg_colors) # 3 = Bottom
             and self.segment_stripes[4].is_off(self.bg_colors, self.fg_colors) # 4 = Bottom Left
-            and self.segment_stripes[5].is_on(self.bg_colors, self.fg_colors) # 5 = Too Left
+            and self.segment_stripes[5].is_on(self.bg_colors, self.fg_colors) # 5 = Top Left
             and self.segment_stripes[6].is_on(self.bg_colors, self.fg_colors) # 6 = Middle
         )
 
