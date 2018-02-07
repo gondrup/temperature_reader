@@ -14,8 +14,12 @@ Takes a webcam image of my cheap chinese temperature monitor and gets the curren
 ```bash
 sudo apt update
 sudo apt upgrade
+
 sudo apt install imagemagick
+
 pip install colormath
+
+sudo apt install libjpeg-dev
 pip install pillow
 ```
 
