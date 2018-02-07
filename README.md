@@ -4,6 +4,21 @@ Takes a webcam image of my cheap chinese temperature monitor and gets the curren
 
 **NOTE: This is a work in progress and is not complete.**
 
+## Requirements
+
+ * Python 3 or 2.7
+ * ImageMagick
+ * [Color Math Python library](https://pypi.python.org/pypi/colormath/)
+ * [PIL/Pillow Python library](https://pillow.readthedocs.io/en/latest/)
+
+```bash
+sudo apt update
+sudo apt upgrade
+sudo apt install imagemagick
+pip install colormath
+pip install pillow
+```
+
 ## Process
 
 ![Chinese Temperature Monitor](https://raw.githubusercontent.com/gondrup/temperature_reader/master/test_images/auto_2018-01-29_141232.jpg "Chinese Temperature Monitor")
