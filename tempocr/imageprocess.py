@@ -18,6 +18,10 @@ def get_coords_str_from_screen(screen, image_width, image_height, offsets = None
 def fix_perspective(image_file):
     # 1. Load image
     im = Image.open(image_file)
+    
+    # Resize image down for performance improvement
+    im = im.resize((160, 120), resample=Image.NEAREST)
+    
     width, height = im.size
 
     # 2. Use screen module to find the screen

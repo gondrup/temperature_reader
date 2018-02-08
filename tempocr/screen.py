@@ -1,8 +1,8 @@
 from tempocr.color import compare
 import sys
 
-#MARKER_COLOR = [255, 158, 141]
-MARKER_COLOR = [255, 100, 60]
+MARKER_COLOR = [255, 158, 141]
+#MARKER_COLOR = [255, 100, 60]
 
 class Marker:
     def __init__(self, point_tl, point_br):
@@ -110,8 +110,8 @@ def find_clusters_in_pixel_matrix(pixel_matrix):
     return clusters
 
 def cluster_to_marker(cluster):
-    cluster.sort(lambda x,y: cmp(x[1], y[1]))
-    cluster.sort(lambda x,y: cmp(x[0], y[0]))
+    cluster.sort(key=lambda x: x[1])
+    cluster.sort(key=lambda x: x[0])
 
     return Marker(cluster[0], cluster[-1])
 
@@ -134,7 +134,7 @@ def get_marker_pixel_matrix_from_image(im):
 
 def get_markers_from_clusters(clusters):
     # Include only the 4 largest clusters, these should be the corners
-    clusters.sort(lambda x,y: cmp(len(y), len(x)))
+    clusters.sort(key=lambda x: len(x))
     clusters = clusters[:4]
 
     markers = []
@@ -153,7 +153,7 @@ def create_screen_from_markers(markers):
     markerBL = None
 
     # Top/Bottom
-    markers.sort(lambda marker,cmp_marker: cmp(marker.point_br[1], cmp_marker.point_br[1]))
+    markers.sort(key=lambda x: x.point_br[1])
     top_markers = [markers[0], markers[1]]
     bottom_markers = [markers[2], markers[3]]
 
