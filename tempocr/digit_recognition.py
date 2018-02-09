@@ -20,16 +20,16 @@ class ImageCoordinates:
 bg_color_coords = [
     ImageCoordinates(0.075, 0.14375),
     ImageCoordinates(0.1390625, 0.1416666667),
-    ImageCoordinates(0.6765625, 0.2),
+    #ImageCoordinates(0.6765625, 0.2),
     ImageCoordinates(0.3109375, 0.375),
     ImageCoordinates(0.51875, 0.3770833333),
     ImageCoordinates(0.7328125, 0.3895833333),
     ImageCoordinates(0.9296875, 0.1416666667),
     ImageCoordinates(0.9453125, 0.4041666667),
     ImageCoordinates(0.2578125, 0.5833333333),
-    ImageCoordinates(0.040625, 0.9458333333),
-    ImageCoordinates(0.4796875, 0.8604166667),
-    ImageCoordinates(0.6984375, 0.69375),
+    ImageCoordinates(0.080625, 0.9458333333),
+    ImageCoordinates(0.4796875, 0.8104166667),
+    ImageCoordinates(0.6984375, 0.64375),
     ImageCoordinates(0.9234375, 0.6479166667)
 ]
 
@@ -39,7 +39,7 @@ fg_color_coords = [
     ImageCoordinates(0.903125, 0.3333333333),
     ImageCoordinates(0.8953125, 0.4375),
     ImageCoordinates(0.928125, 0.4833333333),
-    ImageCoordinates(0.6265625, 0.4958333333)
+    #ImageCoordinates(0.6265625, 0.4958333333)
 ]
 
 def get_bg_colors(image):
