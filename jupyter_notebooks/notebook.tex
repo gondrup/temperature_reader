@@ -344,7 +344,7 @@ Output file: ../test\_images/auto\_2018-01-29\_141232\_fixed.png
     \end{Verbatim}
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}3}]:} <matplotlib.image.AxesImage at 0x7f75f7c405f8>
+{\color{outcolor}Out[{\color{outcolor}3}]:} <matplotlib.image.AxesImage at 0x7fb03df60630>
 \end{Verbatim}
             
     \begin{center}
@@ -439,7 +439,7 @@ to ImageMagick to distort the image ready for character reading).
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}8}]:} <matplotlib.image.AxesImage at 0x7f75f634af98>
+{\color{outcolor}Out[{\color{outcolor}8}]:} <matplotlib.image.AxesImage at 0x7fb03c66cf28>
 \end{Verbatim}
             
     \begin{center}
@@ -469,11 +469,50 @@ Temperature:
 
     \end{Verbatim}
 
+    \subsubsection{Colour Picking}\label{colour-picking}
+
+The following just shows where colors are picked from to determine
+on/off colours.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{k+kn}{from} \PY{n+nn}{tempocr}\PY{n+nn}{.}\PY{n+nn}{digit\PYZus{}recognition} \PY{k}{import} \PY{n}{bg\PYZus{}color\PYZus{}coords}\PY{p}{,} \PY{n}{fg\PYZus{}color\PYZus{}coords}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{temp\PYZus{}img}\PY{p}{)}
+         
+         \PY{n}{xpts} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{n}{ypts} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         
+         \PY{k}{for} \PY{n}{coords} \PY{o+ow}{in} \PY{n}{bg\PYZus{}color\PYZus{}coords}\PY{p}{:}
+             \PY{n}{xpts}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{coords}\PY{o}{.}\PY{n}{get\PYZus{}pixel\PYZus{}x}\PY{p}{(}\PY{n}{temp\PYZus{}img}\PY{p}{)}\PY{p}{)}
+             \PY{n}{ypts}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{coords}\PY{o}{.}\PY{n}{get\PYZus{}pixel\PYZus{}y}\PY{p}{(}\PY{n}{temp\PYZus{}img}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{xpts}\PY{p}{,} \PY{n}{ypts}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ro}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n}{xpts} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{n}{ypts} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         
+         \PY{k}{for} \PY{n}{coords} \PY{o+ow}{in} \PY{n}{fg\PYZus{}color\PYZus{}coords}\PY{p}{:}
+             \PY{n}{xpts}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{coords}\PY{o}{.}\PY{n}{get\PYZus{}pixel\PYZus{}x}\PY{p}{(}\PY{n}{temp\PYZus{}img}\PY{p}{)}\PY{p}{)}
+             \PY{n}{ypts}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{coords}\PY{o}{.}\PY{n}{get\PYZus{}pixel\PYZus{}y}\PY{p}{(}\PY{n}{temp\PYZus{}img}\PY{p}{)}\PY{p}{)}
+             
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{xpts}\PY{p}{,} \PY{n}{ypts}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{go}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}11}]:} [<matplotlib.lines.Line2D at 0x7fb03c641e10>]
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
     The following is just to show where the segment stripes are plotted when
 reading the temperature.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}13}]:} \PY{k+kn}{from} \PY{n+nn}{tempocr}\PY{n+nn}{.}\PY{n+nn}{digit\PYZus{}recognition} \PY{k}{import} \PY{n}{get\PYZus{}digits}
+{\color{incolor}In [{\color{incolor}12}]:} \PY{k+kn}{from} \PY{n+nn}{tempocr}\PY{n+nn}{.}\PY{n+nn}{digit\PYZus{}recognition} \PY{k}{import} \PY{n}{get\PYZus{}digits}
          
          \PY{n}{digits} \PY{o}{=} \PY{n}{get\PYZus{}digits}\PY{p}{(}\PY{n}{temp\PYZus{}img}\PY{p}{)}
          \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{temp\PYZus{}img}\PY{p}{)}
@@ -496,7 +535,7 @@ reading the temperature.
 
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_0.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_20_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
