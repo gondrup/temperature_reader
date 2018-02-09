@@ -1,7 +1,7 @@
 from tempocr.color import compare
 import sys
 
-MARKER_COLOR = [255, 158, 141]
+#MARKER_COLOR = [255, 158, 141]
 #MARKER_COLOR = [255, 100, 60]
 
 class Marker:
@@ -115,7 +115,7 @@ def cluster_to_marker(cluster):
 
     return Marker(cluster[0], cluster[-1])
 
-def get_marker_pixel_matrix_from_image(im):
+def get_marker_pixel_matrix_from_image(im, marker_color):
     rgb_im = im.convert('RGB')
 
     w = rgb_im.size[0]
@@ -127,7 +127,7 @@ def get_marker_pixel_matrix_from_image(im):
         for j in range(w):
             pixel = rgb_im.getpixel((j, i))
 
-            if(compare.is_similar(pixel, MARKER_COLOR, compare.SIMILARITY_THRESHOLD)):
+            if(compare.is_similar(pixel, marker_color, compare.SIMILARITY_THRESHOLD)):
                 marker_pixel_matrix[i][j] = True
 
     return marker_pixel_matrix
@@ -176,9 +176,9 @@ def create_screen_from_markers(markers):
 
     return screen
 
-def find_screen(im):
+def find_screen(im, marker_color):
     # 1. Find pixels that contain colours similar to expected marker colour
-    marker_pixel_matrix = get_marker_pixel_matrix_from_image(im)
+    marker_pixel_matrix = get_marker_pixel_matrix_from_image(im, marker_color)
 
     # 2. Determine pixel clusters
     clusters = find_clusters_in_pixel_matrix(marker_pixel_matrix)

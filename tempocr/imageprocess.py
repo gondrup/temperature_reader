@@ -15,7 +15,7 @@ def get_coords_str_from_screen(screen, image_width, image_height, offsets = None
     
     return coords_str
 
-def fix_perspective(image_file):
+def fix_perspective(image_file, marker_color):
     # 1. Load image
     im = Image.open(image_file)
     
@@ -25,7 +25,7 @@ def fix_perspective(image_file):
     width, height = im.size
 
     # 2. Use screen module to find the screen
-    found_screen = screen.find_screen(im)
+    found_screen = screen.find_screen(im, marker_color)
 
     # 3. Use the found screen object to fix the perspective and crop the image
     coords_str = get_coords_str_from_screen(found_screen, width, height)
@@ -33,12 +33,12 @@ def fix_perspective(image_file):
     #print 'Cropping %dx%d image with coords: %s' % (width, height, coords_str)
 
     temp_file = tempfile.NamedTemporaryFile()
+    im.save(temp_file.name, 'PNG')
 
     # TODO: Use input image resolution as output resolution below
     cmd = [
-        'convert', image_file, '-matte', '-virtual-pixel', 'transparent',
+        'convert', temp_file.name, '-matte', '-virtual-pixel', 'transparent',
         '-distort', 'Perspective', coords_str,
-        '-resize', '640x480!',
         'png:{}'.format(temp_file.name)
     ]
 
@@ -46,5 +46,5 @@ def fix_perspective(image_file):
 
     return temp_file
 
-def prepare_for_ocr(image_file):
-    return fix_perspective(image_file)
+def prepare_for_ocr(image_file, marker_color):
+    return fix_perspective(image_file, marker_color)
