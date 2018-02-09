@@ -95,7 +95,7 @@ def get_digits(image):
             segments.SegmentStripe(rgb_image, ImageCoordinates(0.5265625, 0.24375).get_pixel(image), ImageCoordinates(0.521875, 0.3125).get_pixel(image))
         ], bg_colors, fg_colors),
         segments.PointSeg([
-            segments.SegmentStripe(rgb_image, ImageCoordinates(0.615625, 0.4854166667).get_pixel(image), ImageCoordinates(0.6375, 0.4854166667).get_pixel(image))
+            segments.SegmentStripe(rgb_image, ImageCoordinates(0.61875, 0.5041666667).get_pixel(image), ImageCoordinates(0.63125, 0.4854166667).get_pixel(image))
         ], bg_colors, fg_colors),
 segments.SevenSeg([
         segments.SegmentStripe(rgb_image, ImageCoordinates(0.765625, 0.05416666667).get_pixel(image), ImageCoordinates(0.7640625, 0.1229166667).get_pixel(image)),
